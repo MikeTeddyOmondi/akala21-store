@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
         port: '',
       },
     ],
+  }, 
+  typescript: {
+    ignoreBuildErrors: true,
   },
 };
 

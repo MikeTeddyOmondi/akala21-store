@@ -27,18 +27,16 @@ import {
   updateOrderToPaidCOD,
   deliverOrder,
 } from '@/lib/actions/order.actions';
-import StripePayment from './stripe-payment';
+// import StripePayment from './stripe-payment';
 
 const OrderDetailsTable = ({
   order,
   paypalClientId,
   isAdmin,
-  stripeClientSecret,
 }: {
   order: Omit<Order, 'paymentResult'>;
   paypalClientId: string;
   isAdmin: boolean;
-  stripeClientSecret: string | null;
 }) => {
   const {
     id,
@@ -90,6 +88,10 @@ const OrderDetailsTable = ({
       description: res.message,
     });
   };
+
+  const handleIntaSendCheckout = async () => {
+    console.log("Intasend Clicked")
+  }
 
   // Button to mark order as paid
   const MarkAsPaidButton = () => {
@@ -236,7 +238,7 @@ const OrderDetailsTable = ({
               </div>
 
               {/* PayPal Payment */}
-              {!isPaid && paymentMethod === 'PayPal' && (
+              {!isPaid && paymentMethod === "PayPal" && (
                 <div>
                   <PayPalScriptProvider options={{ clientId: paypalClientId }}>
                     <PrintLoadingState />
@@ -248,17 +250,14 @@ const OrderDetailsTable = ({
                 </div>
               )}
 
-              {/* Stripe Payment */}
-              {!isPaid && paymentMethod === 'Stripe' && stripeClientSecret && (
-                <StripePayment
-                  priceInCents={Number(order.totalPrice) * 100}
-                  orderId={order.id}
-                  clientSecret={stripeClientSecret}
-                />
-              )}
+              {/* IntaSend Payment */}
+              {!isPaid &&
+                paymentMethod === "IntaSend" && (
+                  <Button className='w-full' onClick={handleIntaSendCheckout}>Pay Online with IntaSend</Button>
+                )}
 
               {/* Cash On Delivery */}
-              {isAdmin && !isPaid && paymentMethod === 'CashOnDelivery' && (
+              {isAdmin && !isPaid && paymentMethod === "CashOnDelivery" && (
                 <MarkAsPaidButton />
               )}
               {isAdmin && isPaid && !isDelivered && <MarkAsDeliveredButton />}

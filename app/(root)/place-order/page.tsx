@@ -50,8 +50,8 @@ const PlaceOrderPage = async () => {
               <h2 className='text-xl pb-4'>Shipping Address</h2>
               <p>{userAddress.fullName}</p>
               <p>
-                {userAddress.streetAddress}, {userAddress.city}{' '}
-                {userAddress.postalCode}, {userAddress.country}{' '}
+                {userAddress.streetAddress}, {userAddress.city}{" "}
+                {userAddress.postalCode}, {userAddress.country}{" "}
               </p>
               <div className='mt-3'>
                 <Link href='/shipping-address'>
@@ -85,30 +85,39 @@ const PlaceOrderPage = async () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {cart.items.map((item) => (
-                    <TableRow key={item.slug}>
-                      <TableCell>
-                        <Link
-                          href={`/product/{item.slug}`}
-                          className='flex items-center'
-                        >
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            width={50}
-                            height={50}
-                          />
-                          <span className='px-2'>{item.name}</span>
-                        </Link>
-                      </TableCell>
-                      <TableCell>
-                        <span className='px-2'>{item.qty}</span>
-                      </TableCell>
-                      <TableCell className='text-right'>
-                        ${item.price}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {cart.items.map(
+                    (item: {
+                      price: string;
+                      name: string;
+                      slug: string;
+                      productId: string;
+                      qty: number;
+                      image: string;
+                    }) => (
+                      <TableRow key={item.slug}>
+                        <TableCell>
+                          <Link
+                            href={`/product/{item.slug}`}
+                            className='flex items-center'
+                          >
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              width={50}
+                              height={50}
+                            />
+                            <span className='px-2'>{item.name}</span>
+                          </Link>
+                        </TableCell>
+                        <TableCell>
+                          <span className='px-2'>{item.qty}</span>
+                        </TableCell>
+                        <TableCell className='text-right'>
+                          ${item.price}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  )}
                 </TableBody>
               </Table>
             </CardContent>

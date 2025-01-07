@@ -8,7 +8,7 @@ import {
   updateUserSchema,
 } from '../validators';
 import { auth, signIn, signOut } from '@/auth';
-import { isRedirectError } from 'next/dist/client/components/redirect';
+// import { isRedirectError } from 'next/dist/client/components/redirect';
 import { hashSync } from 'bcrypt-ts-edge';
 import { prisma } from '@/db/prisma';
 import { formatError } from '../utils';
@@ -32,10 +32,11 @@ export async function signInWithCredentials(
     await signIn('credentials', user);
 
     return { success: true, message: 'Signed in successfully' };
-  } catch (error) {
-    if (isRedirectError(error)) {
-      throw error;
-    }
+  } catch (error: unknown) {
+    console.log({ signInErr: error })
+    // if (isRedirectError(error)) {
+    //   throw error;
+    // }
     return { success: false, message: 'Invalid email or password' };
   }
 }
@@ -74,9 +75,10 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
 
     return { success: true, message: 'User registered successfully' };
   } catch (error) {
-    if (isRedirectError(error)) {
-      throw error;
-    }
+    console.log({ signUpErr: error })
+    // if (isRedirectError(error)) {
+    //   throw error;
+    // }
     return { success: false, message: formatError(error) };
   }
 }
